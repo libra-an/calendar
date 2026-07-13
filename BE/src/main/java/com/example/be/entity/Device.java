@@ -1,7 +1,10 @@
 package com.example.be.entity;
 
+import com.example.be.entity.base.PrimaryEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,11 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Device {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Device extends PrimaryEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -28,12 +27,5 @@ public class Device {
     @Column(name = "is_active")
     private Boolean isActive = true;
 
-    @Column(name = "last_login_at")
-    private LocalDateTime lastLoginAt;
 
-    @PrePersist
-    @PreUpdate
-    protected void onUpdate() {
-        lastLoginAt = LocalDateTime.now();
-    }
 }

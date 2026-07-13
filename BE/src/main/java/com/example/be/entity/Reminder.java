@@ -1,7 +1,10 @@
 package com.example.be.entity;
 
+import com.example.be.entity.base.PrimaryEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,11 +12,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reminder {
+public class Reminder extends PrimaryEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", nullable = false)
@@ -22,8 +22,8 @@ public class Reminder {
     @Column(name = "remind_at", nullable = false)
     private LocalDateTime remindAt;
 
-    @Column(nullable = false, length = 20)
-    private String status = "PENDING"; // PENDING, SENT, FAILED
+    @Column(name = "notification_status", nullable = false, length = 20)
+    private String notificationStatus = "PENDING"; // PENDING, SENT, FAILED
 
-    private LocalDateTime createdAt;
+
 }

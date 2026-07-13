@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DeviceRepository extends JpaRepository<Device, Long> {
+public interface DeviceRepository extends JpaRepository<Device, String> {
     // lấy danh sách thiết bị
-    List<Device> findByUserId (Long userId);
+    List<Device> findByUserId (String userId);
 
 }

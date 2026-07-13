@@ -2,20 +2,20 @@ package com.example.be.entity;
 
 import com.example.be.core.constant.TaskStatus;
 import com.example.be.core.constant.TaskType;
+import com.example.be.entity.base.PrimaryEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tasks")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Task extends PrimaryEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -48,23 +48,10 @@ public class Task {
     private String color = "#3399FF"; // US09: Màu sắc hiển thị
 
     @Enumerated(EnumType.STRING)
-    private TaskStatus status = TaskStatus.PENDING;
+    private TaskStatus taskStatus = TaskStatus.PENDING;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
-    // 1 Task có nhiều Reminders
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reminder> reminders;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }
